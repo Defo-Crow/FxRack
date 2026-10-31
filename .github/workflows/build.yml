@@ -1,0 +1,22 @@
+name: Build FxRack VST3
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release --parallel 4
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FxRack-Windows-VST3
+          path: build/FxRack_artefacts/Release/VST3
